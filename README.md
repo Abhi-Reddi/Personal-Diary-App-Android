@@ -1,4 +1,4 @@
 # Personal Dairy
 
-## Splash Scrren
+## Splash Screen
 Added splash screen with logo and redirected to login with Intent.
