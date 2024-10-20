@@ -12,6 +12,8 @@ public class NoteActivity extends AppCompatActivity {
     private TextView noteDateTextView;
     private EditText noteEditText;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
