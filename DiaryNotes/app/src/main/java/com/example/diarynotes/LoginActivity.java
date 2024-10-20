@@ -44,7 +44,6 @@ public class LoginActivity extends AppCompatActivity {
                 mAuth.signInWithEmailAndPassword(email, password)
                         .addOnCompleteListener(LoginActivity.this, task -> {
                             if (task.isSuccessful()) {
-                                // Show success toast
                                 Toast.makeText(LoginActivity.this, "Login Successful!", Toast.LENGTH_SHORT).show();
                                 new android.os.Handler().postDelayed(() -> {
                                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
