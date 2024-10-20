@@ -23,17 +23,13 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        // Initialize UI components
         registerEmail = findViewById(R.id.registerEmail);
         registerPassword = findViewById(R.id.registerPassword);
         registerConfirmPassword = findViewById(R.id.registerConfirmPassword);
         registerButton = findViewById(R.id.registerButton);
-        loginButton = findViewById(R.id.loginButton); // Initialize the loginButton
-
-        // Initialize Firebase Auth
+        loginButton = findViewById(R.id.loginButton);
         mAuth = FirebaseAuth.getInstance();
 
-        // Set up register button click listener
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -41,13 +37,11 @@ public class RegisterActivity extends AppCompatActivity {
                 String password = registerPassword.getText().toString();
                 String confirmPassword = registerConfirmPassword.getText().toString();
 
-                // Check if fields are empty
                 if (email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
                     Toast.makeText(RegisterActivity.this, "Please fill all fields", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                // Check if passwords match
                 if (!password.equals(confirmPassword)) {
                     Toast.makeText(RegisterActivity.this, "Passwords do not match", Toast.LENGTH_SHORT).show();
                     return;
@@ -59,12 +53,11 @@ public class RegisterActivity extends AppCompatActivity {
                             if (task.isSuccessful()) {
                                 Toast.makeText(RegisterActivity.this, "Registered Successfully!", Toast.LENGTH_SHORT).show();
 
-                                // Redirect to LoginActivity after successful registration
                                 new android.os.Handler().postDelayed(() -> {
                                     Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
                                     startActivity(intent);
-                                    finish(); // Close RegisterActivity
-                                }, 1000); // 1-second delay
+                                    finish();
+                                }, 1000);
                             } else {
                                 Toast.makeText(RegisterActivity.this, "Registration failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                             }
@@ -72,6 +65,13 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
-      
+        loginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Redirect to LoginActivity
+                Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }
