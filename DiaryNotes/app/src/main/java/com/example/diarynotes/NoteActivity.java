@@ -36,8 +36,27 @@ public class NoteActivity extends AppCompatActivity {
         firebaseDatabase = FirebaseDatabase.getInstance();
         notesDatabaseReference = firebaseDatabase.getReference("DiaryNotes");
 
-        
+        saveNoteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String noteText = noteEditText.getText().toString();
+                if (!noteText.isEmpty()) {
+                    saveNoteToFirebase(selectedDate, noteText);
+                } else {
+                    Toast.makeText(NoteActivity.this, "Please write a note before saving.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
-
+    private void saveNoteToFirebase(String date, String note) {
+        notesDatabaseReference.child(date).setValue(note)
+                .addOnSuccessListener(aVoid -> {
+                    Toast.makeText(NoteActivity.this, "Note saved to Firebase for " + date, Toast.LENGTH_SHORT).show();
+                    finish();
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(NoteActivity.this, "Failed to save note: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
+    }
 }
