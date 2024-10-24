@@ -46,7 +46,7 @@ public class NoteActivity extends AppCompatActivity {
 
         selectedDate = getIntent().getStringExtra("selectedDate");
         if (selectedDate != null) {
-            noteDateTextView.setText("Notes for: " + selectedDate);
+            noteDateTextView.setText("Date: " + selectedDate);
         }
 
         firebaseDatabase = FirebaseDatabase.getInstance();
@@ -61,7 +61,6 @@ public class NoteActivity extends AppCompatActivity {
             if (!noteText.isEmpty()) {
                 saveNoteToFirebase(selectedDate, noteText);
 
-                // Check if an image has been selected, then upload it
                 if (imageUri != null) {
                     uploadImageToFirebase();
                 } else {
@@ -102,15 +101,15 @@ public class NoteActivity extends AppCompatActivity {
             imageRef.putFile(imageUri)
                     .addOnSuccessListener(taskSnapshot -> {
                         Toast.makeText(NoteActivity.this, "Image uploaded to Firebase", Toast.LENGTH_SHORT).show();
-                        clearInputs(); // Clear inputs after uploading the image
+                        clearInputs();
                     })
                     .addOnFailureListener(e -> Toast.makeText(NoteActivity.this, "Failed to upload image: " + e.getMessage(), Toast.LENGTH_SHORT).show());
         }
     }
 
     private void clearInputs() {
-        noteEditText.setText(""); // Clear the note EditText
-        noteImageView.setVisibility(View.GONE); // Hide the ImageView
-        imageUri = null; // Reset the image URI
+        noteEditText.setText("");
+        noteImageView.setVisibility(View.GONE);
+        imageUri = null;
     }
 }

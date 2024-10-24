@@ -14,8 +14,6 @@ import com.example.diarynotes.LoginActivity;
 
 public class SplashActivity extends AppCompatActivity {
 
-
-    //added splash activity with delay 3 seconds,
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

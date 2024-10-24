@@ -33,7 +33,6 @@ public class MainActivity extends AppCompatActivity {
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker view, int selectedYear, int selectedMonth, int selectedDay) {
-                                // The selected date (month + 1 because it's 0-indexed)
                                 String selectedDate = selectedDay + "/" + (selectedMonth + 1) + "/" + selectedYear;
 
                                 Intent intent = new Intent(MainActivity.this, NoteActivity.class);
