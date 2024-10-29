@@ -8,13 +8,29 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
     // Button to trigger the date picker dialog
+    private RecyclerView notesRecyclerView;
+    private NotesAdapter notesAdapter;
+    private List<Note> notesList = new ArrayList<>();
+
+    private FirebaseDatabase firebaseDatabase;
+    private DatabaseReference notesDatabaseReference;
     private Button selectDateButton;
 
     @Override
@@ -25,6 +41,21 @@ public class MainActivity extends AppCompatActivity {
 
         // Initialize the button to select a date
         selectDateButton = findViewById(R.id.selectDateButton);
+        // Initialize Firebase database reference
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        notesDatabaseReference = firebaseDatabase.getReference("DiaryNotes");
+
+        // Set up RecyclerView for displaying notes
+        notesRecyclerView = findViewById(R.id.notesRecyclerView);
+        notesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        // Initialize adapter and set it to RecyclerView
+        notesAdapter = new NotesAdapter(notesList);
+        notesRecyclerView.setAdapter(notesAdapter);
+
+        // Fetch all notes from Firebase
+        fetchAllNotes();
+
 
         // Set an OnClickListener to handle button clicks
         selectDateButton.setOnClickListener(new View.OnClickListener() {
@@ -54,6 +85,25 @@ public class MainActivity extends AppCompatActivity {
 
                 // Show the date picker dialog to the user
                 datePickerDialog.show();
+            }
+        });
+    }
+
+    private void fetchAllNotes() {
+        notesDatabaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                notesList.clear();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Note note = snapshot.getValue(Note.class);
+                    notesList.add(note);
+                }
+                notesAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(MainActivity.this, "Failed to load notes", Toast.LENGTH_SHORT).show();
             }
         });
     }
