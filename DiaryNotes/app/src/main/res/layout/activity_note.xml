@@ -48,13 +48,14 @@
         android:visibility="gone"
         android:scaleType="centerCrop"
         android:layout_marginBottom="16dp" />
+    
 
 
     <Button
         android:id="@+id/saveNoteButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Save Note"
+        android:text="Save Dairy"
         android:textColor="#FFFFFF"
         android:background="@drawable/rounded_button"
         android:padding="12dp" />
